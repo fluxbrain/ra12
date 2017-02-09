@@ -1,0 +1,77 @@
+\documentclass[paper=a4, english, ngerman]{scrartcl}
+
+\usepackage[a4paper,left=2cm,right=2cm,top=2.5cm,bottom=3cm]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{hyperref}
+
+\parindent 0pt
+\lstset{basicstyle={\ttfamily\scriptsize}, tabsize=4}
+
+\begin{document}
+	\begin{tabular}{p{8.5cm}ll}
+		\multirow{2}{*}{\Huge{Übung 12} } & Bearbeiter: & Björn Oke Maas, Mihai Renea \\
+		                                    & Tutorium:   & Jonas Cleve, Do. 14 Uhr     \\ \hline
+	\end{tabular}
+	
+	\subsection*{Aufgabe 1}
+\begin{enumerate}
+	
+	\item Beim Polling werden die Interrupt-Quellen regelmäßig zyklisch abgefragt, ob eine Ausnahme anliegt. Bei reinen Interrupts kommen von den Komponenten aktiv die Interrupts, die den Prozessor unterbrechen.
+	
+	\item Es gibt beim Polling zwei Varianten: Entweder wird nach einem Interrupt in der ursprünglichen Reihenfolge die nächste Komponente abgefragt, oder nach einem Interrupt wird in der Liste der Komponenten wieder von vorn begonnen. In Variante 1 sind die Komponenten gleichberechtigt, in Variante 2 haben die Komponenten Prioritäten gemäß ihrer Stelle in der Abfrageliste.
+	
+	\item Der Prozessor bekommt bei einem Interrupt die jeweilige Nummer des Interrupts mitgeteilt. In der IVT (Interrupt Vector Table) ist jeder Nummer eine Adresse zugeordnet, wo die auszuführende ISR (Interrupt Service Routine) zu finden ist. Die ISR sichert benutzte Register und setzt den Interrupt Enable Bit. Dann wird das Anliegen des Interrupts behandelt, bzw. an die zuständige Stelle weitergeleitet (z.B. Treiber). IVT und ISR werden vom Betriebssystem festgelegt.
+	
+	\item Ein Interrupt kann von einem Interrupt mit höherer Priorität unterbrochen werden.
+	
+	\item siehe Skizze
+	
+	\item Die Daisy-Chain ist eine Hardwareseitige Lösung, die den Prozessor nicht unnötig belastet und gleichzeitig den Interruptquellen Prioritäten zuweist. Der Prozessor hat somit nur minimalen Aufwand mit Interrupts.
+	
+	\item Löst eine oder mehrere Quellen einen Interrupt aus, so erhält die CPU ein Signal am IRQ-Pin. Wenn das Interrupt Enable Bit gesetzt ist, wird der Interrupt gestattet und entsprechend das IACK Signal gesetzt. Dieses Signal geht der Reihe nach durch die Daisy-Chain, wobei die erste Quelle, die einen Interrupt ausgelöst hat, das Signal für die Nachfolgenden Quellen sperrt. So wird der Interrupt mit der höchsten Priorität ausgeführt.
+	
+	\item Daisy-Chains sind nicht fair, die Reihenfolge der Quellen entspricht ihrer Priorität.
+\end{enumerate}
+
+	\subsection*{Zeitmessung}
+	\begin{enumerate}
+	\item Der Aufruf der Webseite im Browser verursacht Interrupts und Prozessorlast. Angefangen bei der Mausbewegung, Grafikkarte, dem Browser selbst und der Netzwerkkarte unterbrechen diverse Prozesse die CPU beim Berechnen unseres Programmes. Dadurch verlängert sich die Laufzeit.
+	
+	\item Der Interrupt wird ausgelöst. Momentane Arbeit wird unterbrochen. Art des Interrupts wird festgestellt (Software-/Hardware-Interrupt). Interrupt Enable-Bit wird gepr¸ft. Interrupt wird zugelassen, ggf. INTA-Leitung aktiviert. PSW und PC werden auf dem Stack gesichert. Interrupt Enable Bit wird zurückgesetzt. ISR-Adresse wird ermittelt. Benutzte Register werden auf Stack gesichert. Interrupt Enable Bit wird wieder gesetzt. ISR wird ausgeführt. ISR wird beendet. PSW und PC werden wieder hergestellt und zum urspr¸nglichen Programm zurückgekehrt.
+	\end{enumerate}
+
+\pagebreak
+
+	\subsection*{Aufgabe 2}
+\begin{lstlisting}
+;Bearbeiter: Björn Oke Maas, Mihai Renea
+;Tutorium:   Jonas Cleve, Do. 14 Uhr
+
+global collatz
+
+section .text
+
+collatz:
+mov rax, -1				; do-while-Schleife, also
+						; Zaehler ab -1
+
+_loop:
+inc rax					; Zaehler +1
+lea rsi, [rdi*2+rdi+1]	; rsi = rdi*3+1
+shr rdi, 1				; rdi = rdi/2
+
+cmovc rdi, rsi			; Ergebnis aus rsi wird genommen
+						; falls CF=1, weil dann rdi ungerade war
+jnz _loop				; _loop falls ZF=0, weil dann rdi!=1 war
+ret
+
+
+
+
+\end{lstlisting}
+\end{document}
