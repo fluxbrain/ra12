@@ -21,7 +21,7 @@
 	\subsection*{Aufgabe 1}
 \begin{enumerate}
 	
-	\item Beim Polling werden die Interrupt-Quellen regelmäßig zyklisch abgefragt, ob eine Ausnahme anliegt. Bei reinen Interrupts kommen von den Komponenten aktiv die Interrupts, die den Prozessor unterbrechen.
+	\item Beim Polling werden die Interrupt-Quellen regelmäßig zyklisch abgefragt, ob eine Anfrage anliegt. Bei reinen Interrupts kommen von den Komponenten aktiv die Interrupts, die den Prozessor unterbrechen.
 	
 	\item Es gibt beim Polling zwei Varianten: Entweder wird nach einem Interrupt in der ursprünglichen Reihenfolge die nächste Komponente abgefragt, oder nach einem Interrupt wird in der Liste der Komponenten wieder von vorn begonnen. In Variante 1 sind die Komponenten gleichberechtigt, in Variante 2 haben die Komponenten Prioritäten gemäß ihrer Stelle in der Abfrageliste.
 	
@@ -42,14 +42,14 @@
 	\begin{enumerate}
 	\item Der Aufruf der Webseite im Browser verursacht Interrupts und Prozessorlast. Angefangen bei der Mausbewegung, Grafikkarte, dem Browser selbst und der Netzwerkkarte unterbrechen diverse Prozesse die CPU beim Berechnen unseres Programmes. Dadurch verlängert sich die Laufzeit.
 	
-	\item Der Interrupt wird ausgelöst. Momentane Arbeit wird unterbrochen. Art des Interrupts wird festgestellt (Software-/Hardware-Interrupt). Interrupt Enable-Bit wird gepr¸ft. Interrupt wird zugelassen, ggf. INTA-Leitung aktiviert. PSW und PC werden auf dem Stack gesichert. Interrupt Enable Bit wird zurückgesetzt. ISR-Adresse wird ermittelt. Benutzte Register werden auf Stack gesichert. Interrupt Enable Bit wird wieder gesetzt. ISR wird ausgeführt. ISR wird beendet. PSW und PC werden wieder hergestellt und zum urspr¸nglichen Programm zurückgekehrt.
+	\item Der Interrupt wird ausgelöst. Momentane Arbeit wird unterbrochen. Art des Interrupts wird festgestellt (Software-/Hardware-Interrupt). Interrupt Enable-Bit wird geprüft. Interrupt wird zugelassen, ggf. INTA-Leitung aktiviert. PSW und PC werden auf dem Stack gesichert. Interrupt Enable Bit wird zurückgesetzt. ISR-Adresse wird ermittelt. Benutzte Register werden auf Stack gesichert. Interrupt Enable Bit wird wieder gesetzt. ISR wird ausgeführt. ISR wird beendet. PSW und PC werden wieder hergestellt und zum ursprünglichen Programm zurückgekehrt.
 	\end{enumerate}
 
 \pagebreak
 
 	\subsection*{Aufgabe 2}
 \begin{lstlisting}
-;Bearbeiter: Björn Oke Maas, Mihai Renea
+;Bearbeiter: Bjoern Oke Maas, Mihai Renea
 ;Tutorium:   Jonas Cleve, Do. 14 Uhr
 
 global collatz
